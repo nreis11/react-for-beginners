@@ -1,5 +1,7 @@
 # Notes
 
+- Use {} to run JS
+
 - CSS can be imported like usual or within the main js file.
 Ex.
 ```javascript
@@ -25,5 +27,8 @@ const Root = () => {
   )
 }
 ```
+
+- When using variables within html attributes, string formatting is unnecessary. Just use curly brackets.
+Ex. <li class={this.props.className}>Hello</li>
 
 
