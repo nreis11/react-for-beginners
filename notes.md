@@ -31,4 +31,6 @@ const Root = () => {
 - When using variables within html attributes, string formatting is unnecessary. Just use curly brackets.
 Ex. <li class={this.props.className}>Hello</li>
 
+- Can use Object.keys() to iterate over an object. Turns objects into array.
+
 
