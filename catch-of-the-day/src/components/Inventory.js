@@ -1,5 +1,6 @@
 import React from "react";
 import AddFishForm from './AddFishForm';
+import base from '../base';
 
 class Inventory extends React.Component {
   constructor() {
@@ -7,6 +8,8 @@ class Inventory extends React.Component {
     this.renderInventory = this.renderInventory.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.renderLogin = this.renderLogin.bind(this);
+    this.authenticate = this.authenticate.bind(this);
+    this.authHandler = this.authHandler.bind(this);
     this.state = {
       uid: null,
       ownder: null
@@ -20,6 +23,35 @@ class Inventory extends React.Component {
       }
     this.props.updateFish(key, updatedFish);
 
+  }
+  authenticate(provider) {
+    base.authWithOAuthPopup(provider, this.authHandler);
+  }
+  authHandler(err, authData) {
+    if(err) {
+      console.log(err);
+      return;
+    }
+
+    // grab the store info. Only need the relevant slice of the database
+    const storeRef = base.database().ref(this.props.storeId)
+
+    // query the firebase once for the store data
+    storeRef.once('value', (snapshot) => {
+      const data = snapshot.val() || {};
+
+      // claim it as our own if there is no owner already
+      if(!data.owner) {
+        storeRef.set({
+          owner: authData.user.uid
+        })
+      }
+
+      this.setState({
+        uid: authData.user.uid,
+        owner: data.owner || authData.user.uid
+      })
+    })
   }
   renderLogin() {
     return (
@@ -83,7 +115,8 @@ Inventory.propTypes = {
   updateFish: React.PropTypes.func.isRequired,
   removeFish: React.PropTypes.func.isRequired,
   addFish: React.PropTypes.func.isRequired,
-  loadSamples: React.PropTypes.func.isRequired
+  loadSamples: React.PropTypes.func.isRequired,
+  storeId: React.PropTypes.string.isRequired
 }
 
 export default Inventory
