@@ -33,4 +33,8 @@ Ex. <li class={this.props.className}>Hello</li>
 
 - Can use Object.keys() to iterate over an object. Turns objects into array.
 
+- Arrow functions are only needed when passing in args
+Ex. <button onClick={() => this.logout()}>Log Out!</button>
+can be simplified to <button onClick={this.logout}>Log Out!</button>
+
 

@@ -15,5 +15,10 @@ const Header = (props) => {
       </header>
     )
 }
+
+// Validating the argument type for props
+Header.propTypes = {
+  tagline: React.PropTypes.string.isRequired
+}
   
 export default Header;

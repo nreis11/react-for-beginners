@@ -76,6 +76,7 @@ class App extends React.Component {
 
   removeFish(key) {
     const fishes = {...this.state.fishes};
+    // Need to set to null to reflect in firebase
     fishes[key] = null;
     this.setState({ fishes: fishes })
   }
@@ -125,10 +126,15 @@ class App extends React.Component {
           updateFish={this.updateFish}
           removeFish={this.removeFish}
           loadSamples={this.loadSamples}
-          fishes={this.state.fishes} /> 
+          fishes={this.state.fishes}
+          storeId={this.props.params.storeId} /> 
       </div>
     )
   }
+}
+
+App.propTypes = {
+  params: React.PropTypes.object.isRequired
 }
 
 export default App;
